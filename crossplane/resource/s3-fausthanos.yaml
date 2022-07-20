@@ -1,0 +1,30 @@
+apiVersion: s3.aws.crossplane.io/v1beta1
+kind: Bucket
+metadata:
+  name: fausthanos-test
+  annotations:
+    # This will be the actual bucket name. It must be globally unique, so you
+    # probably want to change it before trying to apply this example.
+    crossplane.io/external-name: fausthanos-test
+spec:
+  deletionPolicy: Delete
+  forProvider:
+    acl: private
+    locationConstraint: us-east-1
+    publicAccessBlockConfiguration:
+      ignorePublicAcls: true
+      blockPublicAcls: true
+      blockPublicPolicy: true
+      restrictPublicBuckets: true
+    paymentConfiguration:
+      payer: BucketOwner
+    tagging:
+      tagSet:
+        - key: "team"
+          value: "iac"
+        - key: "bu"
+          value: "tech_cross"
+        - key: "project"
+          value: "crossplane"
+  providerConfigRef:
+    name: iac-lab
