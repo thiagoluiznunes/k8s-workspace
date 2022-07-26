@@ -26,34 +26,14 @@ kubectl get pods -n argocd
 ```
 
 ## Expose ArgoCD UI
-By default, ArgoCD is only accessible from within the cluster. To expose the UI to users you can utilize any of the standard Kubernetes networking machanisms suchas: 
+By default, ArgoCD is only accessible from within the cluster. To expose the UI to users you can utilize any of the standard Kubernetes networking machanisms such as: 
 - Ingress(recommended for production)
 - Load balancer(affects cloud cost)
 - NodePort(simple but not very flexible)
 
-Using NodePort:
-- declare the service of type NodePort associated to argocd-server:
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: argocd-server
-  managedFields:
-  name: argocd-server-nodeport
-  namespace: argocd
-spec:
-  ports:
-  - nodePort: 30443
-    port: 8080
-    protocol: TCP
-  selector:
-    app.kubernetes.io/name: argocd-server
-  type: NodePort
-```
-- apply the yaml:
+Using port-foward to access argocd-server:
 ```console
-$ kubectl apply -f service.yaml
+$ kubectl port-forward svc/argocd-server 8000:80
 ```
 
 ### Login in the ArgoCD UI
