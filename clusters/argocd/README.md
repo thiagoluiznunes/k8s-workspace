@@ -33,7 +33,12 @@ By default, ArgoCD is only accessible from within the cluster. To expose the UI 
 
 Using port-foward to access argocd-server:
 ```console
-$ kubectl port-forward svc/argocd-server 8000:80
+$ nohup kubectl port-forward svc/argocd-server 8000:80 > /dev/null 2>&1 &
+```
+Log port-forward:
+```console
+$ ps -ef|grep port-forward
+$ kill -9 PORT_NUMBER //kill port
 ```
 
 ### Login in the ArgoCD UI
