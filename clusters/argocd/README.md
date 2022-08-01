@@ -12,13 +12,17 @@
 ```console
 $ kind create cluster --name argocd
 ```
+- View cluster info
+```console
+kubectl cluster-info --context kind-argocd
+```
 - Create namespace for ArgoCD
 ```console
-kubeclt create namespace argocd
+kubectl create namespace argocd
 ```
 - Apply the latest stable version manifest
 ```console
-kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml --namespace argocd
 ```
 - View deployment pods
 ```console
