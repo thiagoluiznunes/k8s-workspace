@@ -9,23 +9,23 @@
 
 ## Installing ArgoCD in Kind Cluster
 - Create cluster using kind:
-```console
+```bash
 kind create cluster --name argocd
 ```
 - View cluster info
-```console
+```bash
 kubectl cluster-info --context kind-argocd
 ```
 - Create namespace for ArgoCD
-```console
+```bash
 kubectl create namespace argocd
 ```
 - Apply the latest stable version manifest
-```console
+```bash
 kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml --namespace argocd
 ```
 - View deployment pods
-```console
+```bash
 kubectl get pods -n argocd
 ```
 
@@ -36,42 +36,42 @@ By default, ArgoCD is only accessible from within the cluster. To expose the UI 
 - NodePort(simple but not very flexible)
 
 Using port-foward to access argocd-server:
-```console
+```bash
 nohup kubectl port-forward svc/argocd-server 8000:80 > /dev/null 2>&1 &
 ```
 Log port-forward:
-```console
+```bash
 ps -ef|grep port-forward
 kill -9 PORT_NUMBER //kill port
 ```
 
 ### Login in the ArgoCD UI
 - retrieve admin password created as default
-```console
+```bash
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d > admin-pass.txt
 ```
 ## ArgoCD CLI
 
 - Installing cli
-```console
+```bash
 curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.1.5/argocd-linux-amd64
 ```
-```console
+```bash
 chmod +x /usr/local/bin/argocd
 ```
 
 ### Login with CLI
 - Authenticate
-```console
+```bash
 argocd login admin localhost:30443 --insecure
 ```
 ### Commands
 
 - Get admin password
-```console
+```bash
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d > admin-pass.txt
 ```
 - Help CLI
-```console
+```bash
 argocd help
 ```
