@@ -1,6 +1,11 @@
 enable: true
 
-app:
-  name: demo 
+global:
+  labels:
+    tribe: undefined
+    squad: undefined
 
-extraServiceAccount: ""
+app:
+  name: demo
+
+extraServiceAccount: "global-secrets"
