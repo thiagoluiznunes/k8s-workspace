@@ -1,0 +1,12 @@
+enable: true
+
+global:
+  labels:
+    tribe: undefined
+    squad: undefined
+
+app:
+  name: demo
+
+ingress:
+  enabled: true

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: strider-api
+  namespace: strider
+  labels:
+    app.kubernetes.io/name: strider-api
+spec:
+  selector:
+    matchLabels:
+      app: strider-api
+  template:
+    metadata:
+      labels:
+        app: strider-api
+    spec:
+      containers:
+      - name: strider-api
+        image: thiagoluiznunes/strider:latest
+        imagePullPolicy: IfNotPresent
+        envFrom:
+          - configMapRef:
+              name: strider-api-config
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080

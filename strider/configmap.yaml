@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: strider-api-config
+  namespace: strider
+  labels:
+    app: strider-api
+    tier: pods
+data:
+  SERVER_PORT: "8080"
+  SERVER_DEBUG: "false"
+  DB_HOST: "localhost"
+  DB_PORT: "3306"
+  DB_NAME: "strider"
+  DB_USER: "root"
+  DB_PASS: "secret"
