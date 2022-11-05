@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: strider-db-svc
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: strider-db
+  clusterIP: None
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: strider-db
+spec:
+  selector:
+    matchLabels:
+      app: strider-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: strider-db
+    spec:
+      containers:
+      - name: strider-db
+        image: mysql:latest
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: secret
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3306
+          name: strider-db
+        volumeMounts:
+        - name: strider-db-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: strider-db-persistent-storage
+        persistentVolumeClaim:
+          claimName: strider-db-pv-claim
