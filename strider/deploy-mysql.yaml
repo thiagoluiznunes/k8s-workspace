@@ -3,11 +3,12 @@ kind: Service
 metadata:
   name: strider-db-svc
 spec:
-  ports:
-  - port: 3306
   selector:
     app: strider-db
-  clusterIP: None
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
 ---
 
 apiVersion: apps/v1
@@ -28,9 +29,9 @@ spec:
       containers:
       - name: strider-db
         image: mysql:latest
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: secret
+        envFrom:
+          - configMapRef:
+              name: strider-db-config
         resources:
           limits:
             memory: "128Mi"
@@ -41,7 +42,12 @@ spec:
         volumeMounts:
         - name: strider-db-persistent-storage
           mountPath: /var/lib/mysql
+        - name: strider-initdb
+          mountPath: /docker-entrypoint-initdb.d/
       volumes:
       - name: strider-db-persistent-storage
         persistentVolumeClaim:
           claimName: strider-db-pv-claim
+      - name: strider-initdb
+        configMap:
+          name: strider-initdb-config
